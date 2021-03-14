@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Data like color and width that will used in different places of app
 class Palette {
   static const Color scaffold = Color(0xFFF0F2F5);
 
