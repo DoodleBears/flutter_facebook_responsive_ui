@@ -59,6 +59,7 @@ class _StoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // Rounded Card
         ClipRRect(
           borderRadius: BorderRadius.circular(12.0),
           child: CachedNetworkImage(
@@ -68,6 +69,7 @@ class _StoryCard extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
+        // add a gradient (transparent to black) to make text on it easy to read
         Container(
           height: double.infinity,
           width: 110.0,
@@ -76,6 +78,7 @@ class _StoryCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0),
           ),
         ),
+        // top left avatar of every card
         Positioned(
           top: 8.0,
           left: 8.0,
@@ -100,6 +103,7 @@ class _StoryCard extends StatelessWidget {
                   hasBorder: !story.isViewed,
                 ),
         ),
+        // bottom text of every card
         Positioned(
           bottom: 8.0,
           left: 8.0,

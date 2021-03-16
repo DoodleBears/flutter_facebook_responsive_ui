@@ -10,14 +10,15 @@ class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
     Key key,
     @required this.imageUrl,
-    this.isActice = false,
-    this.hasBorder = false,
+    this.isActice = false, // is the friend user online or not
+    this.hasBorder = false, // is the story been read or not
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // 利用内外层Circle的半径差, 来制作border
         CircleAvatar(
           radius: 20.0,
           backgroundColor: Palette.facebookBlue,
@@ -27,13 +28,16 @@ class ProfileAvatar extends StatelessWidget {
             backgroundImage: CachedNetworkImageProvider(imageUrl),
           ),
         ),
+        // 如果 isActive 为 True 显示小绿点
         isActice
             ? Positioned(
+                // Circle's position
                 bottom: 0.0,
                 right: 0.0,
                 child: Container(
                   height: 15.0,
                   width: 15.0,
+                  // make it circle with border
                   decoration: BoxDecoration(
                     color: Palette.online,
                     shape: BoxShape.circle,
