@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_responsive_ui/config/palette.dart';
+import 'package:flutter_facebook_responsive_ui/widgets/widgets.dart';
 
 class CustomTabBar extends StatelessWidget {
   final List<IconData> icons;
   final int selectedIndex;
   final Function(int) onTap;
   final List<String> tabName;
+  final bool isBottomIndicator;
 
   const CustomTabBar({
     Key key,
     @required this.icons,
     @required this.selectedIndex,
     @required this.onTap,
-    @required this.tabName,
+    this.tabName,
+    this.isBottomIndicator = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return TabBar(
       indicator: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Palette.facebookBlue,
-            width: 3.0,
-          ),
-        ),
+        border: isBottomIndicator
+            ? Border(
+                bottom: BorderSide(
+                  color: Palette.facebookBlue,
+                  width: 3.0,
+                ),
+              )
+            : Border(
+                top: BorderSide(
+                  color: Palette.facebookBlue,
+                  width: 3.0,
+                ),
+              ),
       ),
       tabs: icons
           // use asMap() to get the index of icons
@@ -35,15 +45,17 @@ class CustomTabBar extends StatelessWidget {
               Tab(
                 iconMargin: const EdgeInsets.only(bottom: 3.0),
                 // add tab name
-                child: Text(
-                  tabName[i],
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: i == selectedIndex
-                        ? Palette.facebookBlue
-                        : Colors.black45,
-                  ),
-                ),
+                child: !Responsive.isDesktop(context)
+                    ? Text(
+                        tabName[i],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: i == selectedIndex
+                              ? Palette.facebookBlue
+                              : Colors.black45,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
                 // set Tab Icon
                 icon: Icon(
                   e,
