@@ -5,15 +5,32 @@ import 'package:flutter_facebook_responsive_ui/models/models.dart';
 import 'package:flutter_facebook_responsive_ui/widgets/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // avoid re-rendering the ScrollView while change from one(desktop/mobile) to another
+  final TrackingScrollController _trackingScrollController =
+      TrackingScrollController();
+
+  @override
+  void dispose() {
+    _trackingScrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: Responsive(
-          mobile: _HomeScreenMobile(),
-          desktop: _HomeScreenDesktop(),
+          mobile:
+              _HomeScreenMobile(scrollController: _trackingScrollController),
+          desktop:
+              _HomeScreenDesktop(scrollController: _trackingScrollController),
         ),
       ),
     );
@@ -21,9 +38,16 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _HomeScreenMobile extends StatelessWidget {
+  final TrackingScrollController scrollController;
+
+  const _HomeScreenMobile({
+    Key key,
+    @required this.scrollController,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: scrollController,
       slivers: [
         SliverAppBar(
           brightness: Brightness.light,
@@ -90,20 +114,35 @@ class _HomeScreenMobile extends StatelessWidget {
 }
 
 class _HomeScreenDesktop extends StatelessWidget {
+  final TrackingScrollController scrollController;
+
+  const _HomeScreenDesktop({
+    Key key,
+    @required this.scrollController,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
+        // left side of home screen is OptionsList
         Flexible(
           flex: 2,
-          child: Container(
-            color: Colors.orange,
+          child: Align(
+            // make sure the OptionsList will always on the left
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              // Start to render OptionsList
+              child: MoreOptionsList(currentUser: currentUser),
+            ),
           ),
         ),
         const Spacer(),
         Container(
           width: 600.0,
           child: CustomScrollView(
+            controller: scrollController,
             slivers: [
               // Stories
               SliverPadding(
@@ -143,8 +182,13 @@ class _HomeScreenDesktop extends StatelessWidget {
         const Spacer(),
         Flexible(
           flex: 2,
-          child: Container(
-            color: Colors.blue,
+          // make contacts list always at the right side of screen
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: ContactsList(users: onlineUsers),
+            ),
           ),
         ),
       ],

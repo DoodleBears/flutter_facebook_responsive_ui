@@ -48,6 +48,7 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           // since both left and right side of elements have expanded, it centered
+          SizedBox(width: 40.0),
           Container(
             width: 600.0,
             height: double.infinity,
@@ -59,15 +60,20 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           // expanded the end part of appbar
+          SizedBox(width: 40.0),
           Expanded(
             child: Row(
               // make it stick to the right side of appbar
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                UserCard(
-                  user: currentUser,
+                // add Expanded to UserCard to make text not overflow
+                // Expanded make the child fill all available place alone flex widget in main Axis
+                Expanded(
+                  child: UserCard(
+                    user: currentUser,
+                  ),
                 ),
-                const SizedBox(width: 12.0),
+                const SizedBox(width: 8.0),
                 CircleButton(
                   icon: Icons.search,
                   iconSize: 30.0,

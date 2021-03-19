@@ -21,6 +21,7 @@ class CustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       indicator: BoxDecoration(
+        // when it's Desktop make Indicator on bottom, Mobile make it on Top
         border: isBottomIndicator
             ? Border(
                 bottom: BorderSide(
@@ -45,6 +46,7 @@ class CustomTabBar extends StatelessWidget {
               Tab(
                 iconMargin: const EdgeInsets.only(bottom: 3.0),
                 // add tab name
+                // hide tab name when it shows on Desktop(web)
                 child: !Responsive.isDesktop(context)
                     ? Text(
                         tabName[i],
@@ -55,7 +57,7 @@ class CustomTabBar extends StatelessWidget {
                               : Colors.black45,
                         ),
                       )
-                    : const SizedBox.shrink(),
+                    : null,
                 // set Tab Icon
                 icon: Icon(
                   e,

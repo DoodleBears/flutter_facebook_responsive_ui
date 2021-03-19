@@ -44,6 +44,7 @@ class _NavScreenState extends State<NavScreen> {
 
     return DefaultTabController(
       length: _icons.length,
+      // TODO: when use null, when use SizedBox.shrink()
       child: Scaffold(
         appBar: Responsive.isDesktop(context)
             ? PreferredSize(
@@ -73,7 +74,7 @@ class _NavScreenState extends State<NavScreen> {
                   tabName: _tabName,
                 ),
               )
-            : const SizedBox.shrink(),
+            : null,
       ),
     );
   }

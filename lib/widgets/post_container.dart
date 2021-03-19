@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_responsive_ui/config/palette.dart';
 import 'package:flutter_facebook_responsive_ui/models/models.dart';
 import 'package:flutter_facebook_responsive_ui/widgets/profile_avatar.dart';
+import 'package:flutter_facebook_responsive_ui/widgets/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class PostContainer extends StatelessWidget {
@@ -15,44 +16,57 @@ class PostContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5.0),
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      // we need to make post image full width of screen but not the user info
-      color: Colors.white,
-      child: Column(
-        children: [
-          // Render post avatar, username and text content
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Render post header
-                _PostHeader(post: post),
-                const SizedBox(height: 4.0),
-                // render post text content
-                Text(post.caption),
-                // leave space when there is an image
-                post.imageUrl != null
-                    ? const SizedBox.shrink()
-                    : const SizedBox(height: 6.0),
-              ],
+    final bool isDesktop = Responsive.isDesktop(context);
+
+    return Card(
+      margin: EdgeInsets.symmetric(
+        vertical: 5.0,
+        horizontal: isDesktop ? 5.0 : 0.0,
+      ),
+      elevation: isDesktop ? 1.0 : 0.0,
+      shape: isDesktop
+          ? RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            )
+          : null,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        // we need to make post image full width of screen but not the user info
+        // color: Colors.white,
+        child: Column(
+          children: [
+            // Render post avatar, username and text content
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Render post header
+                  _PostHeader(post: post),
+                  const SizedBox(height: 4.0),
+                  // render post text content
+                  Text(post.caption),
+                  // leave space when there is an image
+                  post.imageUrl != null
+                      ? const SizedBox.shrink()
+                      : const SizedBox(height: 6.0),
+                ],
+              ),
             ),
-          ),
-          // Render post's image
-          post.imageUrl != null
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: CachedNetworkImage(imageUrl: post.imageUrl),
-                )
-              : const SizedBox.shrink(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            // Render Post Status
-            child: _PostStats(post: post),
-          )
-        ],
+            // Render post's image
+            post.imageUrl != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CachedNetworkImage(imageUrl: post.imageUrl),
+                  )
+                : const SizedBox.shrink(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              // Render Post Status
+              child: _PostStats(post: post),
+            )
+          ],
+        ),
       ),
     );
   }
