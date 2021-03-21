@@ -45,10 +45,14 @@ class _NavScreenState extends State<NavScreen> {
     return DefaultTabController(
       length: _icons.length,
       // TODO: when use null, when use SizedBox.shrink()
+      // the reason why we set appBar and bottomNavigationBar here is because they are fixed at top and bottom
       child: Scaffold(
+        // when is mobile, appBar is not NavigationBar, we write SliverAppBar in home_screen.dart
+        // when is Desktop, the appBar will be Navigator
         appBar: Responsive.isDesktop(context)
             ? PreferredSize(
                 preferredSize: Size(screenSize.width, 100.0),
+                // CAREFUL! different from CustomTabBar
                 child: CustomAppBar(
                   currentUser: currentUser,
                   icons: _icons,
@@ -65,8 +69,10 @@ class _NavScreenState extends State<NavScreen> {
         ),
         // Navigation bar using CustomTabBar
         bottomNavigationBar: !Responsive.isDesktop(context)
+            // when is Desktop, nothing at bottom and Navigator is on the top
             ? Container(
                 padding: const EdgeInsets.only(bottom: 12.0),
+                // CAREFUL! different from CustomAppBar
                 child: CustomTabBar(
                   icons: _icons,
                   selectedIndex: _selectedIndex,
