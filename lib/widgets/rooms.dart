@@ -58,11 +58,15 @@ class _CreateRoomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () => print('Create Room'),
+      // OutlinedButton replacet the FlatBottom
       style: OutlinedButton.styleFrom(
         // round rectangle
         shape: StadiumBorder(),
         // 3px width blue border
-        side: BorderSide(width: 3.0, color: Colors.blueAccent[100]),
+        side: BorderSide(
+          width: 3.0,
+          color: Colors.blueAccent[100],
+        ),
       ),
       // icon and text placed horizontally
       child: Row(

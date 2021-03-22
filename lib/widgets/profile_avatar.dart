@@ -16,6 +16,7 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Stack take a list of children, defaut the child in front of the code will be buttom
     return Stack(
       children: [
         // 利用内外层Circle的半径差, 来制作border
